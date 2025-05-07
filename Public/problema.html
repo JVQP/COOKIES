@@ -33,14 +33,15 @@
 
             const nome = lerCookie('nome');
             const texto = document.getElementById('texto');
-
-            texto.innerHTML = `Olá <strong>${nome}</strong>, qual é o problema de hoje?`;
-
+            texto.innerHTML = `<strong>${nome}</strong>, selecione o posto que se encontra o problema.`;
         }
 
-        function problema() {
-            window.location.href = "/problema.html";
-
+        function posto() {
+            const inputPosto = document.getElementById('inputPosto').value;
+            document.cookie = `posto=${inputPosto}; path=/`;
+            
+            window.location.href = "/objetos.html"; 
+        
         }
 
         function apagarTodosCookies() {
@@ -84,17 +85,38 @@
     </nav>
 
     <main>
-        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;" id="scroll">
             <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
                 <p id="texto"></p>
 
-                <button onclick="problema()" class="btn btn-primary w-100">Relatar Problema.</button>
+                <div class="mb-3">
+                    <select class="form-select" id="inputPosto" name="inputPosto" required>
+                        <option selected disabled>Selecione o posto..</option>
+
+                        <option value="Posto 15">POSTO 15</option>
+                        <option value="Posto 16">POSTO 16</option>
+                        <option value="Posto 17">POSTO 17</option>
+                        <option value="Posto 18">POSTO 18</option>
+                        <option value="Posto 19">POSTO 19</option>
+                        <option value="Posto 20">POSTO 20</option>
+                        <option value="Posto 21">POSTO 21</option>
+                        <option value="Posto 22">POSTO 22</option>
+                        <option value="Posto 23">POSTO 23</option>
+                        <option value="Posto 24">POSTO 24</option>
+                        <option value="Posto 25">POSTO 25</option>
+                        <option value="Posto 26">POSTO 26</option>
+                        <option value="Posto 27">POSTO 27</option>
+                        <option value="Posto 28">POSTO 28</option>
+                        <option value="Posto 29">POSTO 29</option>
+                    </select>
+                    <br>
+                   <button onclick="posto()" class="btn btn-primary w-100">Selecionar</button>
+                </div>
             </div>
         </div>
 
     </main>
 
 </body>
-
 
 </html>

@@ -15,11 +15,11 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 
+<link rel="stylesheet" href="styles.css">
 
 
-
-    <script>
-        window.onload = function () {
+        <script>
+            window.onload = function () {
             function lerCookie(nome) {
                 const cookies = document.cookie.split(';');
                 for (let i = 0; i < cookies.length; i++) {
@@ -31,15 +31,48 @@
                 return null;
             }
 
+         
+            const mensagem1 = document.getElementById('mensagem1');
+            const mensagem2 = document.getElementById('mensagem2');
+
+            mensagem1.innerHTML = `Obrigado <stron>${nome}</strong>, por relatar o problema!`;
+            mensagem2.innerHTML = `Estamos analisando o seu relato e em breve entraremos em contato com você.
+            Posto: <strong>${posto}</strong> <br> Objeto: <strong>${objeto}</strong> <br> Defeito: <strong>${defeito}</strong>`;
+            ;
+
             const nome = lerCookie('nome');
             const texto = document.getElementById('texto');
+            texto.innerHTML = `<strong>${nome}</strong>, selecione o posto que se encontra o problema.`;
 
-            texto.innerHTML = `Olá <strong>${nome}</strong>, qual é o problema de hoje?`;
+            const email = lerCookie('email');
+            const posto = lerCookie('posto');
+            const objeto = lerCookie('objeto');
+            const defeito = lerCookie('defeito');
 
-        }
+            texto.innerHTML = `<strong>${nome}</strong>, você relatou que no ${posto} o(a) <strong>${objeto}</strong> <strong>'(${defeito})'</strong>.`;
+           
 
-        function problema() {
-            window.location.href = "/problema.html";
+            const inputPosto = document.getElementById('inputPosto');
+            const inputObjeto = document.getElementById('inputObjeto');
+            const inputDefeito = document.getElementById('inputDefeito');
+            const inputUsuario = document.getElementById('inputUsuario');
+            const inputHora = document.getElementById('inputHora');
+            const inputEmail = document.getElementById('inputEmail');
+
+            inputHora.value = new Date().toISOString().slice(0, 16);
+            inputPosto.value = posto;
+            inputObjeto.value = objeto;
+            inputDefeito.value = defeito;
+            inputUsuario.value = nome;
+            inputEmail.value = email;
+
+            if (inputObjeto.value == `LED'S`) {
+                let nova_div = document.createElement('div');
+                nova_div.innerHTML = `<label for="inputEndereco" class="form-label">Endereço:</label>
+                    <input type="text" class="form-control" id="inputEndereco" placeholder="Ex: 400.02.4.40" required>`;
+
+                document.getElementsByClassName('mb-3')[2].appendChild(nova_div);
+            }
 
         }
 
@@ -55,8 +88,8 @@
                 window.location.href = "/index.html";
             }
         }
-
-    </script>
+    
+        </script>
 
 
 </head>
@@ -84,17 +117,12 @@
     </nav>
 
     <main>
-        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-            <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
-                <p id="texto"></p>
-
-                <button onclick="problema()" class="btn btn-primary w-100">Relatar Problema.</button>
-            </div>
+        <div class="container text-center" id="container">
+          <h1 class="mb-4 text-danger mt-5" id="mensagem1">OPSSS!!! ':('</h1>
+          <p class="mb-4 text-danger mt-5" id="mensagem2">Erro ao REGISTRAR, tente novamente mais tarde ou consulte ao desenvolvedor do sistema!</p>
+          <a href="/index.html" class="btn btn-outline-primary mt-3">Voltar para Início</a>
         </div>
-
-    </main>
-
+      </main>
 </body>
-
 
 </html>

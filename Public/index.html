@@ -39,8 +39,6 @@ function entrar() {
     document.cookie = `nome=${nome}`;
     document.cookie = `email=${email}`;
 
-
-    window.location.href = '/pagina2';
 }
 
         function upperCase() {
@@ -75,6 +73,7 @@ function entrar() {
                     required>
             </div>
 
-            <button onclick="entrar()" class="btn btn-primary w-100">Entrar</button>
-
+           <a href="/pagina2.html"><button onclick="entrar()" class="btn btn-primary w-100">Entrar</button></a>
+        </div>
+    </div>
 </html>

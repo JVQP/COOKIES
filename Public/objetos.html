@@ -33,14 +33,17 @@
 
             const nome = lerCookie('nome');
             const texto = document.getElementById('texto');
+            texto.innerHTML = `<strong>${nome}</strong>, selecione o posto que se encontra o problema.`;
 
-            texto.innerHTML = `Olá <strong>${nome}</strong>, qual é o problema de hoje?`;
+            const posto = lerCookie('posto');
+            texto.innerHTML = `<strong>${nome}</strong>, você selecionou o <strong>${posto.toUpperCase()}</strong>, informe o objeto.`;
 
         }
 
-        function problema() {
-            window.location.href = "/problema.html";
-
+         function objeto() {
+            const inputObjeto = document.getElementById('inputObjeto').value;
+            document.cookie = `objeto=${inputObjeto}; path=/`;
+            window.location.href = "/defeito.html";
         }
 
         function apagarTodosCookies() {
@@ -84,17 +87,32 @@
     </nav>
 
     <main>
-        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;" id="scroll">
             <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
                 <p id="texto"></p>
 
-                <button onclick="problema()" class="btn btn-primary w-100">Relatar Problema.</button>
+                <div class="mb-3">
+                    <select class="form-select" id="inputObjeto" name="inputObjeto" required>
+                        <option selected disabled>Selecione o objeto..</option>
+
+                        <option value="CONCENTRADOR">CONCENTRADOR</option>
+                        <option value="PADPICKING">PADPICKING</option>
+                        <option value="LED'S">LED'S</option>
+                        <option value="CANALETA">CANALETA</option>
+                        <option value="CAPINHA">CAPINHA</option>
+                        <option value="CANTONEIRA">CANTONEIRA</option>
+                    </select>
+                    <br>
+                   <button onclick="objeto()" class="btn btn-primary w-100">Selecionar</button>
+                   <br>
+                   <br>
+                <a href="/problema.html"><button onclick="" id="btn" class="btn btn-danger w-100">Voltar</button></a>
+                </div>
             </div>
         </div>
 
     </main>
 
 </body>
-
 
 </html>

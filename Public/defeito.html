@@ -33,13 +33,21 @@
 
             const nome = lerCookie('nome');
             const texto = document.getElementById('texto');
+            texto.innerHTML = `<strong>${nome}</strong>, selecione o posto que se encontra o problema.`;
 
-            texto.innerHTML = `Olá <strong>${nome}</strong>, qual é o problema de hoje?`;
+            const posto = lerCookie('posto');
+            const objeto = lerCookie('objeto');
+
+            texto.innerHTML = `<strong>${nome}</strong>, você selecionou o <strong>${posto.toUpperCase()}</strong> e o objeto
+            <strong>${objeto.toLocaleUpperCase()}</strong>. Agora informe o defeito.`;
 
         }
 
-        function problema() {
-            window.location.href = "/problema.html";
+        function defeito() {
+            const inputDefeito = document.getElementById('inputDefeito').value;
+            document.cookie = `defeito=${inputDefeito}; path=/`;
+
+            window.location.href = "/form.html";
 
         }
 
@@ -84,17 +92,38 @@
     </nav>
 
     <main>
-        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;" id="scroll">
             <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
                 <p id="texto"></p>
 
-                <button onclick="problema()" class="btn btn-primary w-100">Relatar Problema.</button>
+                <div class="mb-3">
+                    <select class="form-select" id="inputDefeito" name="inputDefeito" required>
+                        <option selected disabled>Selecione o defeito..</option>
+
+                        <option value="Não funciona">Não funciona</option>
+                        <option value="Sem imagem">Liga, mas não dá imagem</option>
+                        <option value="Reinicios continuos">Reinícios contínuos</option>
+                        <option value="Não acende">Não acende</option>
+                        <option value="Problema de rede">Problema de rede</option>
+                        <option value="Não conecta no sistema">Não conecta no sistema</option>
+                        <option value="Quebrado(a)">Quebrado(a)</option>
+                        <option value="Fora do lugar">Fora do lugar</option>
+                        <option value="Sumiu">Sumiu</option>
+                        <option value="Endereço errado">Endereço errado</option>
+                        <option value="Parafusos faltando">Parafusos faltando</option>
+                        
+
+                    </select>
+                    <br>
+                    <button onclick="defeito()" id="btn" class="btn btn-primary w-100">Selecionar</button>
+                    <br>
+                    <br>
+                <a href="/objetos.html"><button onclick="confirmar()" id="btn" class="btn btn-danger w-100">Voltar</button></a>
+                </div>
             </div>
         </div>
-
     </main>
 
 </body>
-
 
 </html>

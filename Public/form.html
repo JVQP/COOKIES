@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Cookies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script>
+        window.onload = function () {
+            function lerCookie(nome) {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(nome + '=')) {
+                        return decodeURIComponent(cookie.substring(nome.length + 1));
+                    }
+                }
+                return null;
+            }
+
+         
+
+            const nome = lerCookie('nome');
+            const texto = document.getElementById('texto');
+            texto.innerHTML = `<strong>${nome}</strong>, selecione o posto que se encontra o problema.`;
+
+            const email = lerCookie('email');
+            const posto = lerCookie('posto');
+            const objeto = lerCookie('objeto');
+            const defeito = lerCookie('defeito');
+
+            texto.innerHTML = `<strong>${nome}</strong>, você relatou que no ${posto} o(a) <strong>${objeto}</strong> <strong>'(${defeito})'</strong>.`;
+           
+
+            const inputPosto = document.getElementById('inputPosto');
+            const inputObjeto = document.getElementById('inputObjeto');
+            const inputDefeito = document.getElementById('inputDefeito');
+            const inputUsuario = document.getElementById('inputUsuario');
+            const inputHora = document.getElementById('inputHora');
+            const inputEmail = document.getElementById('inputEmail');
+
+            inputHora.value = new Date().toISOString().slice(0, 16);
+            inputPosto.value = posto;
+            inputObjeto.value = objeto;
+            inputDefeito.value = defeito;
+            inputUsuario.value = nome;
+            inputEmail.value = email;
+
+            if (inputObjeto.value == `LED'S`) {
+                let nova_div = document.createElement('div');
+                nova_div.innerHTML = `<label for="inputEndereco" class="form-label">Endereço:</label>
+                    <input type="text" class="form-control" id="inputEndereco" placeholder="Ex: 400.02.4.40" required>`;
+
+                document.getElementsByClassName('mb-3')[2].appendChild(nova_div);
+            }
+
+        }
+
+        function apagarTodosCookies() {
+            const cookies = document.cookie.split(";");
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i];
+                const eqPos = cookie.indexOf("=");
+                const nome = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = nome + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+
+                window.location.href = "/index.html";
+            }
+        }
+
+        function confirmar() {
+    const enderecoInput = document.getElementById('inputEndereco');
+    const endereco = enderecoInput ? enderecoInput.value || 'N/A' : 'N/A';
+
+    let obj = {
+        usuario: document.getElementById('inputUsuario').value,
+        email: document.getElementById('inputEmail').value,
+        posto: document.getElementById('inputPosto').value,
+        objeto: document.getElementById('inputObjeto').value,
+        defeito: document.getElementById('inputDefeito').value,
+        endereco: endereco,
+        hora: document.getElementById('inputHora').value,
+    };
+
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+    };
+
+    fetch('http://localhost:3000/confirmar', options)
+        .then(response => response.json()) 
+        .then(response => {
+            if (response.sucesso) {
+                window.location.href = response.url;
+            } else {
+                alert("Erro ao confirmar. Redirecionando...");
+                window.location.href = response.url;
+            }
+        })
+        .catch(err => {
+            console.error('Erro no fetch:', err);
+            alert('Erro na requisição. Verifique o console.');
+        });
+}
+
+
+    </script>
+
+
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><button class="btn btn-dark" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i
+                        class="bi bi-list"></i></button></a>
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+                aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Painel de controle</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <button type="button" onclick="apagarTodosCookies()" class="btn btn-danger" id="logout-btn"> Sair
+                        <i class="bi bi-box-arrow-left"></i>
+                    </button> </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;"
+            id="container">
+            <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
+                <p id="texto"></p>
+
+                <div class="mb-3">
+                    <input type="hidden" class="form-control" id="inputUsuario" required>
+                </div>
+                
+                <div class="mb-3">
+                    <input type="hidden" class="form-control" id="inputEmail" required>
+                </div>
+                
+
+                <div class="mb-3">
+
+                <input type="hidden" class="form-control" id="inputPosto" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="hidden" class="form-control" id="inputObjeto" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="hidden" class="form-control" id="inputDefeito" required>
+                </div>
+                
+                <div class="mb-3">
+                    <input type="datetime-local" class="form-control" id="inputHora" required>
+                </div>
+
+                <br>
+                <button onclick="confirmar()" id="btn" class="btn btn-primary w-100">Confirmar</button>
+                <br>
+                <a href="/defeito.html"><button onclick="" id="btn" class="btn btn-danger w-100">Voltar</button></a>
+            </div>
+        </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
