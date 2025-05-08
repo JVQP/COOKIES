@@ -101,6 +101,74 @@ app.get('/relatorio', (req, res) => {
     });
 });
 
+app.get('/excluir/:id', (req, res) => {
+    
+        db.run('DELETE FROM chamado WHERE id = ?', [req.params.id], (err) => {
+            if(err){
+                return res.render('relatorio', {mensagem: 'Erro ao deletar chamado!'});
+            } else {
+                    res.redirect('/relatorio');
+                    console.log('Chamado deletado com sucesso!')
+                }        
+            
+        });
+ 
+});
+
+app.get('/concluido/:id/:nome/:email', (req, res) => {
+
+    const nome = req.params.nome;
+    const email = req.params.email;
+
+    db.run(`UPDATE chamado SET situacao = 'Concluido' WHERE id = ?`, [req.params.id], (err) => {
+            if(err){
+                console.log('Erro ao concluir tarefa!', err.message);
+                return res.redirect('/relatorio');
+            } else {
+            
+                let transporter = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                    auth: {
+                        user: 'jaumvit0r222@gmail.com',
+                        pass: 'nqnw aiwo flcs urdh'
+                    }
+                });
+        
+                const mailOptions = {
+                    from: 'jaumvit0r222@gmail.com',
+                    to: `${email}, jaumvit0r222@gmail.com`,
+                    subject: 'Confirmação de chamado',
+                    html: `
+                    <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
+                      <h2 style="color: #333; border-bottom: 1px solid #ccc; padding-bottom: 10px;"> Chamado concluido ✅</h2>
+                        <p><strong>Código: ${req.params.id}</strong>
+                      <p> O chamado foi concluido pelo usuário: ${nome}</p>
+                      <hr style="margin-top: 20px;">
+                      <p style="font-size: 12px; color: #777;">Este é um e-mail automático enviado pelo sistema de registro de defeitos.</p>
+                    </div>
+                  `
+                };
+        
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log('Erro ao enviar email:', error);
+                        res.redirect('/error.html')
+                       
+                    }
+        
+                    console.log('Email enviado:', info.response);
+                    res.redirect('/relatorio');
+                    
+                });
+         
+              
+            }
+    }); 
+
+
+});
+
 app.post('/confirmar', (req, res) => {
     const { usuario, email, posto, objeto, defeito, endereco, data, situacao } = req.body;
 
@@ -138,6 +206,7 @@ app.post('/confirmar', (req, res) => {
               <p><strong>🖥️ Objeto:</strong> ${objeto}</p>
               <p><strong>❗ Defeito:</strong> ${defeito}</p>
               <p><strong>⏲️ Horário e data:</strong> ${data}</p>
+              <p><strong>⚠️ Situação:</strong> ${situacao}</p>
               <hr style="margin-top: 20px;">
               <p style="font-size: 12px; color: #777;">Este é um e-mail automático enviado pelo sistema de registro de defeitos.</p>
             </div>
