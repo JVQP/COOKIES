@@ -143,7 +143,7 @@ app.get('/concluido/:id/:nome/:email', (req, res) => {
                     <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
                       <h2 style="color: #333; border-bottom: 1px solid #ccc; padding-bottom: 10px;"> Chamado concluido ✅</h2>
                         <p><strong>Código: ${req.params.id}</strong>
-                      <p> O chamado foi concluido pelo usuário: ${nome}</p>
+                      <p> O chamado foi concluido pelo usuário: <strong>JOÃO VITOR</strong></p>
                       <hr style="margin-top: 20px;">
                       <p style="font-size: 12px; color: #777;">Este é um e-mail automático enviado pelo sistema de registro de defeitos.</p>
                     </div>
