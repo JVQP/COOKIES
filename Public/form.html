@@ -16,7 +16,7 @@
         crossorigin="anonymous"></script>
 
 
-    <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="styles.css">
 
     <script>
         window.onload = function () {
@@ -49,10 +49,9 @@
             const inputObjeto = document.getElementById('inputObjeto');
             const inputDefeito = document.getElementById('inputDefeito');
             const inputUsuario = document.getElementById('inputUsuario');
-            const inputHora = document.getElementById('inputHora');
             const inputEmail = document.getElementById('inputEmail');
 
-            inputHora.value = new Date().toISOString().slice(0, 16);
+         
             inputPosto.value = posto;
             inputObjeto.value = objeto;
             inputDefeito.value = defeito;
@@ -93,7 +92,7 @@
         objeto: document.getElementById('inputObjeto').value,
         defeito: document.getElementById('inputDefeito').value,
         endereco: endereco,
-        hora: document.getElementById('inputHora').value,
+        data: document.getElementById('inputHora').value,
     };
 
     let options = {
@@ -151,7 +150,7 @@
 
     <main>
         <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;"
-            id="container">
+            id="container2">
             <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
                 <p id="texto"></p>
 
