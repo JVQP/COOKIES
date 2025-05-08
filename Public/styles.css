@@ -3,9 +3,21 @@
 }
 
 #container1{
-    margin-top: 400px;
+    margin-top: 300px;
 }
 
 #container2{
     margin-top: 100px;
+}
+
+#container3{
+    margin-top: 300px;
+}
+
+.table{
+    margin-top: 100px;
+}
+
+.back-button{
+    text-align: center;
 }

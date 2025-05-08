@@ -16,7 +16,7 @@
         crossorigin="anonymous"></script>
 
 
-   <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
 
     <script>
         window.onload = function () {
@@ -31,7 +31,7 @@
                 return null;
             }
 
-         
+
 
             const nome = lerCookie('nome');
             const texto = document.getElementById('texto');
@@ -43,7 +43,7 @@
             const defeito = lerCookie('defeito');
 
             texto.innerHTML = `<strong>${nome}</strong>, você relatou que no ${posto} o(a) <strong>${objeto}</strong> <strong>'(${defeito})'</strong>.`;
-           
+
 
             const inputPosto = document.getElementById('inputPosto');
             const inputObjeto = document.getElementById('inputObjeto');
@@ -51,7 +51,7 @@
             const inputUsuario = document.getElementById('inputUsuario');
             const inputEmail = document.getElementById('inputEmail');
 
-         
+
             inputPosto.value = posto;
             inputObjeto.value = objeto;
             inputDefeito.value = defeito;
@@ -65,6 +65,11 @@
 
                 document.getElementsByClassName('mb-3')[2].appendChild(nova_div);
             }
+            const btn = document.getElementById('btn');
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                btn.innerText = 'Aguarde...'
+            });
 
         }
 
@@ -81,43 +86,51 @@
             }
         }
 
+
+          
+
         function confirmar() {
-    const enderecoInput = document.getElementById('inputEndereco');
-    const endereco = enderecoInput ? enderecoInput.value || 'N/A' : 'N/A';
+            const enderecoInput = document.getElementById('inputEndereco');
+            const endereco = enderecoInput ? enderecoInput.value || 'N/A' : 'N/A';
+            const inputSituacao = document.getElementById('inputSituacao');
+            const situacao = inputSituacao ? inputSituacao.value || 'Pedente' : 'Pedente';
 
-    let obj = {
-        usuario: document.getElementById('inputUsuario').value,
-        email: document.getElementById('inputEmail').value,
-        posto: document.getElementById('inputPosto').value,
-        objeto: document.getElementById('inputObjeto').value,
-        defeito: document.getElementById('inputDefeito').value,
-        endereco: endereco,
-        data: document.getElementById('inputHora').value,
-    };
+            let obj = {
+                usuario: document.getElementById('inputUsuario').value,
+                email: document.getElementById('inputEmail').value,
+                posto: document.getElementById('inputPosto').value,
+                objeto: document.getElementById('inputObjeto').value,
+                defeito: document.getElementById('inputDefeito').value,
+                endereco: endereco,
+                data: document.getElementById('inputHora').value,
+                situacao: situacao
+            };
 
-    let options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(obj)
-    };
+            let options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            };
 
-    fetch('http://localhost:3000/confirmar', options)
-        .then(response => response.json()) 
-        .then(response => {
-            if (response.sucesso) {
-                window.location.href = response.url;
-            } else {
-                alert("Erro ao confirmar. Redirecionando...");
-                window.location.href = response.url;
-            }
-        })
-        .catch(err => {
-            console.error('Erro no fetch:', err);
-            alert('Erro na requisição. Verifique o console.');
-        });
-}
+            fetch('http://localhost:3000/confirmar', options)
+                .then(response => response.json())
+                .then(response => {
+                    if (response.sucesso) {
+                        window.location.href = response.url;
+                        alert(response.email);
+
+                    } else {
+                
+                        window.location.href = response.url;
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro no fetch:', err);
+                    alert('Erro na requisição. Verifique o console.');
+                });
+        }
 
 
     </script>
@@ -157,15 +170,15 @@
                 <div class="mb-3">
                     <input type="hidden" class="form-control" id="inputUsuario" required>
                 </div>
-                
+
                 <div class="mb-3">
                     <input type="hidden" class="form-control" id="inputEmail" required>
                 </div>
-                
+
 
                 <div class="mb-3">
 
-                <input type="hidden" class="form-control" id="inputPosto" required>
+                    <input type="hidden" class="form-control" id="inputPosto" required>
                 </div>
 
                 <div class="mb-3">
@@ -175,9 +188,13 @@
                 <div class="mb-3">
                     <input type="hidden" class="form-control" id="inputDefeito" required>
                 </div>
-                
+
                 <div class="mb-3">
                     <input type="datetime-local" class="form-control" id="inputHora" required>
+                </div>
+               
+                <div class="mb-3">
+                    <input type="hidden" class="form-control" id="inputSituacao" required>
                 </div>
 
                 <br>

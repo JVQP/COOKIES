@@ -31,35 +31,30 @@
                 return null;
             }
 
-         
-            const mensagem1 = document.getElementById('mensagem1');
-            const mensagem2 = document.getElementById('mensagem2');
-
-            mensagem1.innerHTML = `Obrigado <stron>${nome}</strong>, por relatar o problema!`;
-            mensagem2.innerHTML = `Estamos analisando o seu relato e em breve entraremos em contato com você.
-            Posto: <strong>${posto}</strong> <br> Objeto: <strong>${objeto}</strong> <br> Defeito: <strong>${defeito}</strong>`;
-            ;
 
             const nome = lerCookie('nome');
-            const texto = document.getElementById('texto');
-            texto.innerHTML = `<strong>${nome}</strong>, selecione o posto que se encontra o problema.`;
+            
 
             const email = lerCookie('email');
             const posto = lerCookie('posto');
             const objeto = lerCookie('objeto');
             const defeito = lerCookie('defeito');
 
-            texto.innerHTML = `<strong>${nome}</strong>, você relatou que no ${posto} o(a) <strong>${objeto}</strong> <strong>'(${defeito})'</strong>.`;
-           
+            
+            const mensagem1 = document.getElementById('mensagem1');
+            const mensagem2 = document.getElementById('mensagem2');
+
+            mensagem1.innerHTML = `Obrigado <stron>${nome}</strong>, por relatar o problema!`;
+            mensagem2.innerHTML = `Estamos analisando o seu relato e em breve entraremos em contato com você, chegará um E-mail de confirmação do seu chamado.
+            Posto: <strong>${posto}</strong> <br> Objeto: <strong>${objeto}</strong> <br> Defeito: <strong>${defeito}</strong>`;
+            ;
 
             const inputPosto = document.getElementById('inputPosto');
             const inputObjeto = document.getElementById('inputObjeto');
             const inputDefeito = document.getElementById('inputDefeito');
             const inputUsuario = document.getElementById('inputUsuario');
-            const inputHora = document.getElementById('inputHora');
             const inputEmail = document.getElementById('inputEmail');
 
-            inputHora.value = new Date().toISOString().slice(0, 16);
             inputPosto.value = posto;
             inputObjeto.value = objeto;
             inputDefeito.value = defeito;
@@ -75,6 +70,21 @@
             }
 
         }
+
+        function voltar() {
+           
+            const cookies = document.cookie.split(";");
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i];
+                const eqPos = cookie.indexOf("=");
+                const nome = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = nome + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+
+                window.location.href = "/index.html";
+            }
+        }
+        
 
         function apagarTodosCookies() {
             const cookies = document.cookie.split(";");
@@ -118,9 +128,9 @@
 
     <main>
         <div class="container text-center" id="container1">
-          <h1 class="mb-4 text-success mt-5" id="mensagem1">Muito obrigado pelo contato : )</h1>
-          <p class="mb-4 text-success mt-5" id="mensagem2">Seu chamado foi registrado com sucesso, em breve entraremos em contato!</p>
-          <a href="/index.html" class="btn btn-outline-primary mt-3">Voltar para Início</a>
+          <h1 class="mb-4 text-success mt-5" id="mensagem1"></h1>
+          <p class="mb-4 text-success mt-5" id="mensagem2"></p>
+          <button class="btn btn-outline-primary mt-3" onclick="voltar()">Voltar para o Inicio</button>
         </div>
       </main>
 </body>
