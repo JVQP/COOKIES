@@ -138,7 +138,7 @@ app.get('/concluido/:id/:nome/:email', (req, res) => {
                 const mailOptions = {
                     from: 'jaumvit0r222@gmail.com',
                     to: `${email}, jaumvit0r222@gmail.com`,
-                    subject: 'Confirmação de chamado',
+                    subject: 'Conclusão do chamado.',
                     html: `
                     <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
                       <h2 style="color: #333; border-bottom: 1px solid #ccc; padding-bottom: 10px;"> Chamado concluido ✅</h2>
