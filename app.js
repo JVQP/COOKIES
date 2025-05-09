@@ -227,6 +227,6 @@ app.post('/confirmar', (req, res) => {
 
 
 // Iniciar servidor
-app.listen(3000, () => {
+app.listen(8080, () => {
     console.log('Rodando na porta 3000...');
 });
